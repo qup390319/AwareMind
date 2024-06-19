@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Journal Page</title>
+</head>
+
+<body class="bg-teal-700 text-white h-screen flex flex-col justify-between">
+    <div class="px-6 pt-6 pb-1">
+        <!-- Header -->
+        <div class="flex justify-between items-center mb-6">
+            <div class="text-2xl font-bold">AwareMind</div>
+            <div class="text-3xl">...</div>
+        </div>
+        <!-- Back button and title -->
+        <div class="flex items-center mb-6">
+            <button class="text-2xl">&#8592;</button>
+            <h1 class="flex-1 text-center text-2xl font-bold">情緒日記</h1>
+        </div>
+        <!-- Emoji and date -->
+        <div class="flex flex-col items-center mb-6">
+            <div class="w-24 h-24 bg-gray-300 rounded-full mb-2"></div> <!-- Emoji placeholder -->
+            <p class="text-center text-sm">點擊我<br>選擇你現在的心情</p>
+        </div>
+    </div>
+    <!-- Journal entry -->
+    <div class="mx-6 bg-white text-black rounded-lg p-4 flex-grow">
+        <div class="flex justify-between items-center mb-4 bg-gray-100 p-2 rounded-lg">
+            <div>
+                <span class="block">現在時間：</span>
+                <span class="block">2024/03/18 8:14 PM</span>
+            </div>
+            <button
+                class="bg-yellow-500 text-white py-2 px-4 rounded flex flex-col items-center justify-center text-lg">
+                <span>編輯</span>
+                <span>內文</span>
+            </button>
+        </div>
+        <p class="mb-2">心情非常愉快，感覺一切都很順利。</p>
+        <p>現在....</p>
+    </div>
+    <!-- Music button -->
+    <div class="flex justify-center px-6 pt-4 pb-6">
+        <button class="bg-yellow-500 text-white py-2 px-4 rounded-full flex items-center">
+            <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19V6l12-2v13"></path>
+            </svg>
+            來首音樂吧！
+        </button>
+    </div>
+</body>
+
+</html>
