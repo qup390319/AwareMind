@@ -1,14 +1,14 @@
 {
-  "name": "server",
+  "name": "your-app-name",
   "version": "1.0.0",
-  "description": "",
-  "main": "app.js",
+  "main": "index.js", // 確保這裡指向的是你的啟動文件
   "scripts": {
-    "start": "node app.js"
+    "start": "node index.js" // 確保這裡也指向你的啟動文件
   },
-  "engines": {
-    "node": "10.x"
-  },
-  "author": "",
-  "license": "ISC"
+  "dependencies": {
+    "express": "^4.17.1",
+    "pg": "^8.6.0",
+    "body-parser": "^1.19.0",
+    // 其他依賴
+  }
 }
