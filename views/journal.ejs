@@ -5,64 +5,203 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <title>Journal Page</title>
     <style>
         .bg-custom {
             background-color: #50746C;
         }
+
+        .emoji-circle {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 6rem;
+            height: 6rem;
+            background-color: white;
+            border-radius: 50%;
+            font-size: 3rem;
+        }
+
+        .emoji-picker {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-height: 60%;
+            overflow-y: auto;
+            z-index: 10;
+        }
+
+        .emoji-picker.visible {
+            display: block;
+        }
+
+        .emoji-picker .emoji {
+            font-size: 3rem;
+            cursor: pointer;
+            margin: 10px;
+        }
+
+        .emoji-picker .emoji-row {
+            display: flex;
+            justify-content: space-around;
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            z-index: 5;
+        }
+
+        .overlay.visible {
+            display: block;
+        }
     </style>
 </head>
 
 <body class="bg-custom text-white h-screen flex flex-col justify-between">
-    <div class="px-6 pt-6 pb-1">
-        <!-- Header -->
-        <div class="flex justify-between items-center mb-6">
-            <div class="text-2xl font-bold">AwareMind</div>
-            <div class="text-3xl">...</div>
-        </div>
-        <!-- Back button and title -->
-        <div class="flex items-center mb-6">
-            <button class="text-2xl">&#8592;</button>
-            <h1 class="flex-1 text-center text-2xl font-bold">情緒日記</h1>
-        </div>
-        <!-- Emoji and date -->
-        <div class="flex flex-col items-center mb-6">
-            <div class="w-24 h-24 bg-gray-300 rounded-full mb-2"></div> <!-- Emoji placeholder -->
-            <p class="text-center text-sm">點擊我<br>選擇你現在的心情</p>
-        </div>
-    </div>
-    <!-- Journal entry -->
-    <div class="mx-6 bg-white text-black rounded-lg p-4 flex-grow overflow-y-auto">
-        <div class="flex justify-between items-center mb-4 bg-gray-100 p-2 rounded-lg">
-            <div>
-                <span class="block">現在時間：</span>
-                <span class="block">2024/03/18 8:14 PM</span>
+    <div class="h-full">
+        <div class="px-6 pt-6 pb-1">
+            <!-- Header -->
+            <div class="flex justify-between items-center mb-6">
+                <div class="text-2xl font-bold">AwareMind</div>
+                <div class="text-3xl">...</div>
             </div>
-            <button
-                class="bg-yellow-500 text-white py-2 px-4 rounded flex flex-col items-center justify-center text-lg">
-                <span>編輯</span>
-                <span>內文</span>
-            </button>
+            <!-- Back button and title -->
+            <div class="flex items-center mb-6">
+                <button class="text-2xl bg-gray-100 rounded-full text-black p-1 active:bg-gray-400"
+                    onclick="window.location.href='/main';">↩︎</button>
+                <h1 class="flex-1 text-center text-2xl font-bold">情緒日記</h1>
+            </div>
+
+            <!-- Emoji and date -->
+            <div id="btn_emoji" class="flex flex-col items-center mb-2 active:bg-gray-300 focus:bg-gray-300">
+                <div class="emoji-circle" id="current-emoji">
+                    👋
+                </div>
+                <p class="text-center text-sm text-gray-400 mt-2">點擊我<br>選擇你現在的心情</p>
+            </div>
         </div>
-        <!-- Add more content here to test scrolling -->
-        <p>今天是一個愉快的日子，陽光明媚，微風徐徐，我的心情也因此格外輕快。一大早，我在公園裡慢跑，空氣清新，鳥兒在樹梢唱著歡快的歌。我享受著這片刻的寧靜，感覺整個人都充滿了能量。
-            跑完步後，我回到家中，吃了一頓豐盛的早餐：新鮮的水果、鬆軟的煎餅和一杯香濃的咖啡，讓我感覺特別滿足。接著，我開始整理書桌，把那些堆積已久的文件和書籍一一歸位，讓我的工作環境變得井井有條。看著整潔的書桌，我的心情更加愉悅。
-            午餐時間，我和幾個好朋友相約去了一家新開的餐廳。餐廳的裝潢很有特色，菜品也非常美味。我們一邊品嘗美食，一邊聊著彼此的近況，笑聲不斷。這樣的時光總是讓人感覺無比珍貴和幸福。
-            下午，我回到家，打開電腦，開始處理一些工作事項。雖然工作內容有些繁瑣，但在今天這樣愉快的心情下，一切似乎都變得輕鬆許多。我還趁機學習了一些新的知識，感覺收穫滿滿。
-            傍晚時分，我和家人一起散步。我們沿著河邊漫步，夕陽的餘暉灑在水面上，波光粼粼，景色美得令人陶醉。我們聊著各自的生活和未來的計劃，氣氛非常溫馨。
-            回到家後，我洗了個熱水澡，感覺整個人都放鬆了下來。晚上，我拿出一本喜愛的小說，沉浸在書中的世界裡。隨著夜深人靜，我感覺心情格外平靜，這樣愉快的一天讓我充滿了對未來的期待和希望。
-            今天的日記到此結束，希望每一天都能像今天這樣充實而愉快。</p>
+
+        <!-- Journal entry -->
+        <div class="mx-6 bg-white text-black rounded-lg p-6 flex-1">
+            <form id="journal-form">
+                <div class="mb-4">
+                    <textarea id="entry_text"
+                        class="w-full p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        rows="8" placeholder="寫下你的心情..."></textarea>
+                </div>
+                <button type="submit"
+                    class="w-full bg-blue-500 text-white p-4 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    送出
+                </button>
+            </form>
+        </div>
+
+        <!-- Emoji picker -->
+        <div id="emoji-picker" class="emoji-picker">
+            <!-- Emoji rows (add more as needed) -->
+            <div class="emoji-row">
+                <span class="emoji">😀</span>
+                <span class="emoji">😁</span>
+                <span class="emoji">😂</span>
+                <span class="emoji">🤣</span>
+            </div>
+            <div class="emoji-row">
+                <span class="emoji">😃</span>
+                <span class="emoji">😄</span>
+                <span class="emoji">😅</span>
+                <span class="emoji">😆</span>
+            </div>
+            <div class="emoji-row">
+                <span class="emoji">😉</span>
+                <span class="emoji">😊</span>
+                <span class="emoji">😋</span>
+                <span class="emoji">😎</span>
+            </div>
+            <div class="emoji-row">
+                <span class="emoji">😍</span>
+                <span class="emoji">😘</span>
+                <span class="emoji">😗</span>
+                <span class="emoji">😙</span>
+            </div>
+            <div class="emoji-row">
+                <span class="emoji">😚</span>
+                <span class="emoji">🙂</span>
+                <span class="emoji">🤗</span>
+                <span class="emoji">🤔</span>
+            </div>
+            <div class="emoji-row">
+                <span class="emoji">😐</span>
+                <span class="emoji">😑</span>
+                <span class="emoji">😶</span>
+                <span class="emoji">🙄</span>
+            </div>
+            <div class="emoji-row">
+                <span class="emoji">😏</span>
+                <span class="emoji">😣</span>
+                <span class="emoji">😥</span>
+                <span class="emoji">😮</span>
+            </div>
+            <div class="emoji-row">
+                <span class="emoji">🤐</span>
+                <span class="emoji">😯</span>
+                <span class="emoji">😪</span>
+                <span class="emoji">😫</span>
+            </div>
+        </div>
+        <div id="overlay" class="overlay"></div>
     </div>
-    <!-- Music button -->
-    <div class="flex justify-center px-6 pt-4 pb-6">
-        <button class="bg-yellow-500 text-white py-2 px-4 rounded-full flex items-center">
-            <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19V6l12-2v13"></path>
-            </svg>
-            來首音樂吧！
-        </button>
-    </div>
+
+    <script>
+        document.getElementById('btn_emoji').addEventListener('click', function () {
+            document.getElementById('emoji-picker').classList.toggle('visible');
+            document.getElementById('overlay').classList.toggle('visible');
+        });
+
+        document.getElementById('overlay').addEventListener('click', function () {
+            document.getElementById('emoji-picker').classList.remove('visible');
+            document.getElementById('overlay').classList.remove('visible');
+        });
+
+        document.querySelectorAll('.emoji').forEach(function (emoji) {
+            emoji.addEventListener('click', function () {
+                document.getElementById('current-emoji').innerText = this.innerText;
+                document.getElementById('emoji-picker').classList.remove('visible');
+                document.getElementById('overlay').classList.remove('visible');
+            });
+        });
+
+        document.getElementById('journal-form').addEventListener('submit', function (event) {
+            event.preventDefault();
+            // Add your form submission logic here
+
+            // Clear the textarea content
+            document.getElementById('entry_text').value = '';
+
+            // Display SweetAlert success message
+            Swal.fire({
+                title: '成功!',
+                text: '你的心情日記已經送出',
+                icon: 'success',
+                confirmButtonText: '好'
+            });
+        });
+        // Clear the textarea content
+        document.getElementById('entry_text').value = '';
+
+    </script>
 </body>
 
 </html>
